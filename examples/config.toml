@@ -1,0 +1,40 @@
+# opnsense-widget configuration.
+# Copy to %APPDATA%\router-widget\config.toml (or point ROUTER_WIDGET_CONFIG at it).
+# Keep this file private: it holds the API key. Restrict its ACL to your user.
+
+url = "https://192.168.1.1"          # OPNsense GUI/API address
+api_key = "REPLACE_ME"
+api_secret = "REPLACE_ME"
+# Alternatively, read the key from a JSON file in the opnsense-mcp-server format:
+# mcp_json = 'C:\path\to\.mcp.json'
+
+poll_secs = 2                         # traffic tick; other data every 5th / 15th tick
+always_on_top = true
+toasts = true
+theme = "system"                      # "system" | "light" | "dark" (the header switch overrides)
+# toast_app_id = "My.Registered.AUMID" # default: PowerShell's, which Windows always accepts
+# probe_targets = ["1.1.1.1:443", "8.8.8.8:443"]
+# watch_services = ["pf", "unbound", "dnsmasq", "suricata", "cloudflared", "wazuh-agentd"]
+
+# A router process whose absence is an alert, e.g. an IPTV multicast helper.
+# iptv_process = "iptv_helper"
+
+# IP -> label. Overrides DHCP hostnames; named IPv4 devices also get left/rejoined events.
+[names]
+"192.168.1.10" = "NAS"
+"192.168.1.20" = "Living-room TV"
+
+# --- Optional: OPNsense running as a Hyper-V VM --------------------------------------
+# [host]
+# ssh = "monitor@192.168.1.5"         # OpenSSH on the Hyper-V host
+# key = 'C:\Users\you\.ssh\hyperv_widget'
+# vm = "OPNsense"                     # Hyper-V VM name
+# poll_secs = 60
+# backfill_days = 14
+
+# --- Optional: Wazuh alerts --------------------------------------------------------------
+# [wazuh]
+# ssh = "wazuh-user@192.168.1.6"
+# key = 'C:\Users\you\.ssh\wazuh_widget'   # forced-command key, see server/widget-alerts.py
+# router_agent = "opnsense"                # agent name prefix of the firewall (FIM events)
+# important_agents = ["hyperv-host"]       # their disconnects are warnings with a toast
